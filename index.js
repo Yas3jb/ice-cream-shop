@@ -25,7 +25,18 @@ app.get("/api/flavors", async (req, res, next) => {
 });
 
 // Read Single Flavor - R
-app.get("/api/flavors/:id", async (req, res, next) => {});
+app.get("/api/flavors/:id", async (req, res, next) => {
+  try {
+    const SQL = `
+        SELECT * FROM flavors
+        WHERE id=$1
+        `;
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // CREATE Flavors - C
 app.post("/api/flavors", async (req, res, next) => {
