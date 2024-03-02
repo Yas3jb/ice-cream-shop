@@ -6,6 +6,13 @@ const client = new pg.Client(
   process.env.DATABASE_URL || "postgres://localhost/acme_ice_cream_shop_db"
 );
 
+// static routes here (you only need these for deployment)
+app.use(express.static(path.join(__dirname, "../client/dist")));
+// app routes here
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"))
+);
+
 // parse the body into JS Objects
 app.use(express.json());
 // Log the requests as they come in
